@@ -1,6 +1,6 @@
 package no.hvl.dat100.javel.oppgave1;
 
-public class main {
+public class DayMain {
 
     public static void main(String[] args) {
 

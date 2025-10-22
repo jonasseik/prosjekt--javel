@@ -4,68 +4,81 @@ import no.hvl.dat100.javel.oppgave1.DailyPower;
 
 public class MonthlyPower {
 
-    // a) print power usage for a month
     public static void print_PowerUsage(double[][] usage) {
-
-        // TODO
-
+        for (int day = 0; day < usage.length; day++) {
+            System.out.printf("Day %d:", day + 1);
+            DailyPower.printPowerUsage(usage[day]);
+        }
     }
 
-    // b) print power prices for a month
     public static void print_PowerPrices(double[][] prices) {
-
-        // TODO
-
+        for (int day = 0; day < prices.length; day++) {
+            System.out.printf("Day %d:", day + 1);
+            DailyPower.printPowerPrices(prices[day]);
+        }
     }
 
-    // c) compute total power usage for a month
     public static double computePowerUsage(double[][] usage) {
+        double totalMonthlyUsage = 0;
+        
+        for (double[] dailyUsage : usage) {
+            totalMonthlyUsage += DailyPower.computePowerUsage(dailyUsage);
+        }
 
-        double sum = 0;
-
-        // TODO
-
-        return sum;
+        return totalMonthlyUsage;
     }
 
-    // d) determine whether a given threshold in powerusage for the month has been exceeded
     public static boolean exceedThreshold(double[][] powerusage, double threshold) {
-
-        boolean exceeded = false;
-        double usage = 0;
-
-        // TODO
-
-        return exceeded;
+        double currentUsage = 0;
+        int day = 0;
+        
+        while (day < powerusage.length) {
+            currentUsage += DailyPower.computePowerUsage(powerusage[day]);
+            
+            if (currentUsage > threshold) {
+                return true;
+            }
+            day++;
+        }
+        
+        return false;
     }
 
-    // e) compute spot price
     public static double computeSpotPrice(double[][] usage, double[][] prices) {
+        double totalSpotPrice = 0;
+        
+        if (usage.length != prices.length) {
+            throw new IllegalArgumentException("Usage and prices arrays must have the same number of days.");
+        }
 
-        double price = 0;
+        for (int day = 0; day < usage.length; day++) {
+            totalSpotPrice += DailyPower.computeSpotPrice(usage[day], prices[day]);
+        }
 
-        // TODO
-
-        return price;
+        return totalSpotPrice;
     }
 
-    // f) power support for the month
     public static double computePowerSupport(double[][] usage, double[][] prices) {
+        double totalSupport = 0;
+        
+        if (usage.length != prices.length) {
+            throw new IllegalArgumentException("Usage and prices arrays must have the same number of days.");
+        }
 
-        double support = 0;
+        for (int day = 0; day < usage.length; day++) {
+            totalSupport += DailyPower.computePowerSupport(usage[day], prices[day]);
+        }
 
-        // TODO
-
-        return support;
+        return totalSupport;
     }
 
-    // g) Norgesprice for the month
     public static double computeNorgesPrice(double[][] usage) {
+        double totalNorgesPrice = 0;
 
-        double price = 0;
+        for (double[] dailyUsage : usage) {
+            totalNorgesPrice += DailyPower.computeNorgesPrice(dailyUsage);
+        }
 
-        // TODO
-
-        return price;
+        return totalNorgesPrice;
     }
 }
